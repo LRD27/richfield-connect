@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '../context/AppContext';
+import ProfilePreview from './ProfilePreview';
 
 const interestOptions = [
   'Academic Support',
@@ -133,155 +134,159 @@ function SignUpForm() {
   };
 
   return (
-    <form className="signup-form" onSubmit={handleSubmit} noValidate>
-      <div className="form-grid">
-        <div className="field-group">
-          <label htmlFor="fullName">Full Name</label>
-          <input
-            id="fullName"
-            name="fullName"
-            type="text"
-            value={formData.fullName}
+    <div className="signup-layout">
+      <form className="signup-form" onSubmit={handleSubmit} noValidate>
+        <div className="form-grid">
+          <div className="field-group">
+            <label htmlFor="fullName">Full Name</label>
+            <input
+              id="fullName"
+              name="fullName"
+              type="text"
+              value={formData.fullName}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              placeholder="Enter your full name"
+              className={errors.fullName ? 'input-error' : ''}
+            />
+            {errors.fullName && <span className="field-error">{errors.fullName}</span>}
+          </div>
+
+          <div className="field-group">
+            <label htmlFor="studentNumber">Student Number</label>
+            <input
+              id="studentNumber"
+              name="studentNumber"
+              type="text"
+              inputMode="numeric"
+              value={formData.studentNumber}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              placeholder="e.g. 20245678"
+              className={errors.studentNumber ? 'input-error' : ''}
+            />
+            {errors.studentNumber && <span className="field-error">{errors.studentNumber}</span>}
+          </div>
+
+          <div className="field-group">
+            <label htmlFor="campus">Campus</label>
+            <select
+              id="campus"
+              name="campus"
+              value={formData.campus}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className={errors.campus ? 'input-error' : ''}
+            >
+              <option value="">Select campus</option>
+              <option value="Main Campus">Main Campus</option>
+              <option value="City Campus">City Campus</option>
+              <option value="North Campus">North Campus</option>
+              <option value="South Campus">South Campus</option>
+            </select>
+            {errors.campus && <span className="field-error">{errors.campus}</span>}
+          </div>
+
+          <div className="field-group">
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              placeholder="student@richfield.ac.za"
+              className={errors.email ? 'input-error' : ''}
+            />
+            {errors.email && <span className="field-error">{errors.email}</span>}
+          </div>
+
+          <div className="field-group">
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              value={formData.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              placeholder="Minimum 8 characters"
+              className={errors.password ? 'input-error' : ''}
+            />
+            {errors.password && <span className="field-error">{errors.password}</span>}
+          </div>
+
+          <div className="field-group">
+            <label htmlFor="confirmPassword">Confirm Password</label>
+            <input
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              placeholder="Re-enter password"
+              className={errors.confirmPassword ? 'input-error' : ''}
+            />
+            {errors.confirmPassword && <span className="field-error">{errors.confirmPassword}</span>}
+          </div>
+        </div>
+
+        <fieldset className="interest-fieldset">
+          <legend>Interests</legend>
+          <div className="checkbox-grid">
+            {interestOptions.map((interest) => (
+              <label key={interest} className="checkbox-item">
+                <input
+                  type="checkbox"
+                  name="interests"
+                  value={interest}
+                  checked={formData.interests.includes(interest)}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                <span>{interest}</span>
+              </label>
+            ))}
+          </div>
+          {errors.interests && <span className="field-error">{errors.interests}</span>}
+        </fieldset>
+
+        <div className="field-group textarea-group">
+          <label htmlFor="bio">Bio</label>
+          <textarea
+            id="bio"
+            name="bio"
+            rows="5"
+            value={formData.bio}
             onChange={handleChange}
             onBlur={handleBlur}
-            placeholder="Enter your full name"
-            className={errors.fullName ? 'input-error' : ''}
+            placeholder="Tell us a little about yourself and your student journey."
+            className={errors.bio ? 'input-error' : ''}
           />
-          {errors.fullName && <span className="field-error">{errors.fullName}</span>}
+          {errors.bio && <span className="field-error">{errors.bio}</span>}
         </div>
 
-        <div className="field-group">
-          <label htmlFor="studentNumber">Student Number</label>
+        <label className="checkbox-item terms-item">
           <input
-            id="studentNumber"
-            name="studentNumber"
-            type="text"
-            inputMode="numeric"
-            value={formData.studentNumber}
+            type="checkbox"
+            name="terms"
+            checked={formData.terms}
             onChange={handleChange}
             onBlur={handleBlur}
-            placeholder="e.g. 20245678"
-            className={errors.studentNumber ? 'input-error' : ''}
           />
-          {errors.studentNumber && <span className="field-error">{errors.studentNumber}</span>}
-        </div>
+          <span>I agree to the terms and conditions.</span>
+        </label>
+        {errors.terms && <span className="field-error">{errors.terms}</span>}
 
-        <div className="field-group">
-          <label htmlFor="campus">Campus</label>
-          <select
-            id="campus"
-            name="campus"
-            value={formData.campus}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            className={errors.campus ? 'input-error' : ''}
-          >
-            <option value="">Select campus</option>
-            <option value="Main Campus">Main Campus</option>
-            <option value="City Campus">City Campus</option>
-            <option value="North Campus">North Campus</option>
-            <option value="South Campus">South Campus</option>
-          </select>
-          {errors.campus && <span className="field-error">{errors.campus}</span>}
-        </div>
+        <button type="submit" className="primary-btn full-width-btn">
+          Create Profile
+        </button>
+      </form>
 
-        <div className="field-group">
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            value={formData.email}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            placeholder="student@richfield.ac.za"
-            className={errors.email ? 'input-error' : ''}
-          />
-          {errors.email && <span className="field-error">{errors.email}</span>}
-        </div>
-
-        <div className="field-group">
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            value={formData.password}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            placeholder="Minimum 8 characters"
-            className={errors.password ? 'input-error' : ''}
-          />
-          {errors.password && <span className="field-error">{errors.password}</span>}
-        </div>
-
-        <div className="field-group">
-          <label htmlFor="confirmPassword">Confirm Password</label>
-          <input
-            id="confirmPassword"
-            name="confirmPassword"
-            type="password"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            placeholder="Re-enter password"
-            className={errors.confirmPassword ? 'input-error' : ''}
-          />
-          {errors.confirmPassword && <span className="field-error">{errors.confirmPassword}</span>}
-        </div>
-      </div>
-
-      <fieldset className="interest-fieldset">
-        <legend>Interests</legend>
-        <div className="checkbox-grid">
-          {interestOptions.map((interest) => (
-            <label key={interest} className="checkbox-item">
-              <input
-                type="checkbox"
-                name="interests"
-                value={interest}
-                checked={formData.interests.includes(interest)}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-              <span>{interest}</span>
-            </label>
-          ))}
-        </div>
-        {errors.interests && <span className="field-error">{errors.interests}</span>}
-      </fieldset>
-
-      <div className="field-group textarea-group">
-        <label htmlFor="bio">Bio</label>
-        <textarea
-          id="bio"
-          name="bio"
-          rows="5"
-          value={formData.bio}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          placeholder="Tell us a little about yourself and your student journey."
-          className={errors.bio ? 'input-error' : ''}
-        />
-        {errors.bio && <span className="field-error">{errors.bio}</span>}
-      </div>
-
-      <label className="checkbox-item terms-item">
-        <input
-          type="checkbox"
-          name="terms"
-          checked={formData.terms}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-        <span>I agree to the terms and conditions.</span>
-      </label>
-      {errors.terms && <span className="field-error">{errors.terms}</span>}
-
-      <button type="submit" className="primary-btn full-width-btn">
-        Create Profile
-      </button>
-    </form>
+      <ProfilePreview formData={formData} />
+    </div>
   );
 }
 
