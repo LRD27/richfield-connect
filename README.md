@@ -2,9 +2,9 @@
 Richfield Connect student community SPA built with React 18 and Vite.
 
 ## Student details
-- Name: [Your Name]
-- Surname: [Your Surname]
-- Student Number: [Your Student Number]
+- Name: [Lungile]
+- Surname: [Dube]
+- Student Number: [402605503]
 
 ## Module name and assignment title
 - Module Name: Web Development / Front-End Development
